@@ -1,0 +1,43 @@
+﻿  ConsoleApplication1.cpp
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(20,42): warning C4244: '=': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(31,23): warning C4244: '=': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(45,35): warning C4244: '+=': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(47,21): warning C4244: '=': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(216,126): warning C4244: 'initializing': conversion from '_Rep' to 'int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(216,47): warning C4244: 'initializing': conversion from '_Rep' to 'const int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(230,131): warning C4244: 'initializing': conversion from '_Rep' to 'int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(230,44): warning C4244: 'initializing': conversion from '_Rep' to 'const int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  LINK : C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab2\x64\Debug\ConsoleApplication1.exe not found or not built by the last incremental link; performing full link
+  ConsoleApplication1.vcxproj -> C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab2\x64\Debug\ConsoleApplication1.exe
