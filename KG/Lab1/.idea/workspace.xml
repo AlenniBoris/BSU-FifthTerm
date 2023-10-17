@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4cd0d05c-12c0-43a0-a8a8-02266aca9835" name="Changes" comment="KG commit">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ColorModels/CMYK_Model.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ColorModels/HSL_Model.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ColorModels/RGB_Model.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Frames/ChooseFromPalitra.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Frames/MainFrame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sliders/CMYK_Slider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sliders/HSL_Slider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sliders/RGB_Slider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Sliders/SliderPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../BSU-SecondTerm" beforeDir="false" afterPath="$PROJECT_DIR$/../../../BSU-SecondTerm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../For-ME/Learn-Android" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../For-ME/Learn-Android" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../For-ME/Learn-Unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../For-ME/Learn-Unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../For-ME/My-Projects/PCbuilder/SOCKET/Computer-build-simulator" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../For-ME/My-Projects/PCbuilder/SOCKET/Computer-build-simulator" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../For-ME/My-Projects/PCbuilder/webka/Computer-build-simulator-web" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../For-ME/My-Projects/PCbuilder/webka/Computer-build-simulator-web" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2WcSGDBKqllEZ80Pzdr3GGMvk4y" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/MyProgramming/For-BSU/BSU-FifthTerm/KG",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Lab1" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4cd0d05c-12c0-43a0-a8a8-02266aca9835" name="Changes" comment="" />
+      <created>1697030278656</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697030278656</updated>
+      <workItem from="1697030279647" duration="737000" />
+      <workItem from="1697317237237" duration="101000" />
+      <workItem from="1697363460431" duration="9000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="KG commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="KG commit" />
+  </component>
+</project>
