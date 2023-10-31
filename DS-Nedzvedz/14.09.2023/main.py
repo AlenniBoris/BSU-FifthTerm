@@ -139,24 +139,24 @@
 
 #12/10/23
 
-import cv2
-from deconvolution import Deconvolution
-from PIL import Image
-
-img = Image.open("image003.jpg")
-
-
-decimg1 = Deconvolution(image=img, basis=[[1,0,0], [0,0,0]])
-
-layer1, _ = decimg1.out_images(mode=[1,2])
-
-
-layer1.save("r.jpg")
-
-decimg2 = Deconvolution(image=img, basis=[[0,0,1], [90/255,93/255,128/255]])
-
-layer2,_ = decimg2.out_images(mode=[1,2])
-layer2.save("b.jpg")
+# import cv2
+# from deconvolution import Deconvolution
+# from PIL import Image
+#
+# img = Image.open("image003.jpg")
+#
+#
+# decimg1 = Deconvolution(image=img, basis=[[1,0,0], [0,0,0]])
+#
+# layer1, _ = decimg1.out_images(mode=[1,2])
+#
+#
+# layer1.save("r.jpg")
+#
+# decimg2 = Deconvolution(image=img, basis=[[0,0,1], [90/255,93/255,128/255]])
+#
+# layer2,_ = decimg2.out_images(mode=[1,2])
+# layer2.save("b.jpg")
 
 # import cv2
 # import numpy as np
@@ -189,4 +189,6 @@ layer2.save("b.jpg")
 #
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
+
+#19/10/2023
 

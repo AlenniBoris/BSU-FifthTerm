@@ -13,7 +13,7 @@ public class ChooseFromPalitra extends JPanel {
 
     public ChooseFromPalitra(MainFrame mainFrame) {
         frame = mainFrame;
-        choose = new JButton("Choose");
+        choose = new JButton("Palitra");
 
         setLayout(new GridLayout(2,0));
         add(choose);
