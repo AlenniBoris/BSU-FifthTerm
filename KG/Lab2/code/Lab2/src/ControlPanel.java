@@ -1,5 +1,6 @@
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfInt;
 import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
@@ -25,7 +26,8 @@ public class ControlPanel extends JPanel {
     private JButton reset;
     private JButton logarithm;
     private JButton negative;
-    private JButton localThreshBtn;
+    private JButton localThreshBtnB;
+    private JButton localThreshBtnN;
     private JButton linearContrastBtn;
     private JButton addBtn;
     private JButton multiplyBtn;
@@ -61,7 +63,7 @@ public class ControlPanel extends JPanel {
         load = new JButton("Load");
 
         load.addActionListener(e -> {
-            JFileChooser fileChooser = new JFileChooser("./photos/default");
+            JFileChooser fileChooser = new JFileChooser("./photos");
             int r = fileChooser.showOpenDialog(null);
             if (r == JFileChooser.APPROVE_OPTION) {
                 image = Imgcodecs.imread(fileChooser.getSelectedFile().getAbsolutePath());
@@ -86,18 +88,12 @@ public class ControlPanel extends JPanel {
         save = new JButton("Save");
         save.addActionListener(e -> {
             if (image!=null){
-                if (mainFrame.getImagePanel().getOperation().getText().equals("Thresholding")){
-                    String bernsenPath = "./photos/operations/Thresholding/"+loadedPic+"_bernsen"+".jpg";
-                    String niblackPath = "./photos/operations/Thresholding/"+loadedPic+"_niblack"+".jpg";
-                    Imgcodecs.imwrite(bernsenPath, picB);
-                    Imgcodecs.imwrite(niblackPath, picN);
-                    JOptionPane.showMessageDialog(null, "Сохранено в папку: photos/operations/"+mainFrame.getImagePanel().getOperation().getText());
-                }
-                else{
+
+
                     String path = "./photos/operations/"+mainFrame.getImagePanel().getOperation().getText()+"/"+loadedPic+".jpg";
-                    Imgcodecs.imwrite(path, pic);
+                    Imgcodecs.imwrite(path, pic,new MatOfInt(Imgcodecs.IMWRITE_JPEG_QUALITY,0));
                     JOptionPane.showMessageDialog(null, "Сохранено в папку: photos/operations/"+mainFrame.getImagePanel().getOperation().getText());
-                }
+
             }
         });
 
@@ -105,7 +101,6 @@ public class ControlPanel extends JPanel {
         reset.addActionListener(e -> {
             mainFrame.getImagePanel().setPicProcessed(bufImage);
             pic = image;
-            mainFrame.getImagePanel().getLabelPr1().setIcon(new ImageIcon());
             mainFrame.getImagePanel().getOperation().setText("no_operation");
         });
 
@@ -123,37 +118,60 @@ public class ControlPanel extends JPanel {
         second.add(localThreshFirst);
         second.add(localThreshSecond);
         second.add(localThreshThird);
-        localThreshBtn = new JButton("Thresholding");
-        localThreshBtn.addActionListener(e -> {
+        JPanel btns = new JPanel(new GridLayout(1,2));
+        localThreshBtnN = new JButton("Niblack");
+        localThreshBtnB = new JButton("Bernsen");
+        btns.add(localThreshBtnB);
+        btns.add(localThreshBtnN);
+        localThreshBtnB.addActionListener(e -> {
             try {
                 if (image != null) {
                     int size = Integer.parseInt(localThreshFirst.getText());
                     int C = Integer.parseInt(localThreshSecond.getText());
-                    double K = Double.parseDouble(localThreshThird.getText());
 
                     workingImage = image;
-                    niblackImage = image;
 
-                    picB = ElementTransformations.Bernsen(workingImage, size, C);
-                    picN = ElementTransformations.Niblack(niblackImage, size, K);
+                    pic = ElementTransformations.Bernsen(workingImage, size, C);
 
                     try {
-                        workingBufImage = toBufImage(picB);
-                        nibkackBufImage = toBufImage(picN);
+                        workingBufImage = toBufImage(pic);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
 
                     mainFrame.getImagePanel().setPicProcessed(workingBufImage);
-                    mainFrame.getImagePanel().setPicNiblack(nibkackBufImage);
                     mainFrame.getImagePanel().setPicOrigin(bufImage);
-                    mainFrame.getImagePanel().getOperation().setText(localThreshBtn.getText());
+                    mainFrame.getImagePanel().getOperation().setText(localThreshBtnB.getText());
                 }
             } catch (NumberFormatException exception) {
                 JOptionPane.showMessageDialog(null, "Вводите нечентые числа > 0");
             }
         });
-        second.add(localThreshBtn);
+        localThreshBtnN.addActionListener(e -> {
+            try {
+                if (image != null) {
+                    int size = Integer.parseInt(localThreshFirst.getText());
+                    double K = Double.parseDouble(localThreshThird.getText());
+
+                    niblackImage = image;
+
+                    pic = ElementTransformations.Niblack(niblackImage, size, K);
+
+                    try {
+                        workingBufImage = toBufImage(pic);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    mainFrame.getImagePanel().setPicProcessed(workingBufImage);
+                    mainFrame.getImagePanel().setPicOrigin(bufImage);
+                    mainFrame.getImagePanel().getOperation().setText(localThreshBtnN.getText());
+                }
+            } catch (NumberFormatException exception) {
+                JOptionPane.showMessageDialog(null, "Вводите нечентые числа > 0");
+            }
+        });
+        second.add(btns);
 
         third = new JPanel(new GridLayout(4, 1));
         JTextField contrasting = new JTextField("Linear contrast");

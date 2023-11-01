@@ -19,7 +19,7 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        setLayout(new GridLayout(0, 2));
+        setLayout(new GridLayout(0, 2, 0, 3));
 
         leftContainer = new JPanel(new BorderLayout());
         sizeField = new JTextField("0*0");
@@ -38,9 +38,11 @@ public class ImagePanel extends JPanel {
         tempPanel.add(processed);
         tempPanel.add(operation);
         rightContainer.add(tempPanel, BorderLayout.NORTH);
-        processedImage = new JPanel(new GridLayout(1, 2, 0, 4));
+        processedImage = new JPanel(new GridLayout(1, 1));
         labelPr = new JLabel();
+        processedImage.add(labelPr);
         labelPr1 = new JLabel();
+
         rightContainer.add(processedImage);
 
         add(leftContainer);
@@ -72,21 +74,23 @@ public class ImagePanel extends JPanel {
     }
 
     public void setPicOrigin(BufferedImage bufferedImage) {
-        labelOr.setIcon(new ImageIcon(bufferedImage));
+        int panelWidth = originalImage.getWidth();
+        int panelHeight = originalImage.getHeight();
+
+        if (panelWidth>0 && panelHeight>0){
+            Image scaled = bufferedImage.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
+            labelOr.setIcon(new ImageIcon(scaled));
+        }
         originalImage.add(labelOr);
     }
 
     public void setPicProcessed(BufferedImage bufferedImage) {
-        labelPr.setIcon(new ImageIcon(bufferedImage));
-        processedImage.add(labelPr);
-    }
+        int panelWidth = processedImage.getWidth();
+        int panelHeight = processedImage.getHeight();
 
-    public void setPicNiblack(BufferedImage bufferedImage) {
-        labelPr1.setIcon(new ImageIcon(bufferedImage));
-        processedImage.add(labelPr1);
-    }
-
-    public JLabel getLabelPr1() {
-        return labelPr1;
+        if (panelWidth>0 && panelHeight>0){
+            Image scaled = bufferedImage.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
+            labelPr.setIcon(new ImageIcon(scaled));
+        }
     }
 }
