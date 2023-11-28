@@ -6,54 +6,55 @@ public class Methods {
     static ArrayList<Pixel> brezenheim(int x0, int y0, int x1, int y1){
         ArrayList<Pixel> points = new ArrayList<>();
 
-        if (x1-x0 < 0){
-            int tempx = x0;
-            int tempy = y0;
-            x0 = x1;
-            y0 = y1;
-            x1 = tempx;
-            y1 = tempy;
-        }
+        int dx = Math.abs(x1 - x0);
+        int dy = Math.abs(y1 - y0);
+        int sx = (x0 < x1) ? 1 : -1;
+        int sy = (y0 < y1) ? 1 : -1;
 
-        int dx = x1-x0;
-        int dy = Math.abs(y1-y0);
+        int error = dx - dy;
 
-        int error = dx/2;
-        int ystep = (y0 < y1) ? 1 : -1;
-        int y = y0;
+        while (true) {
+            // Draw the current point
+            points.add(new Pixel(x0,y0));
 
-        for (int x = x0; x <= x1; x++) {
-            points.add(new Pixel(x,y));
-            error -= dy;
-            if (error < 0){
-                y += ystep;
+            if (x0 == x1 && y0 == y1) {
+                break;
+            }
+
+            int error2 = 2 * error;
+
+            if (error2 > -dy) {
+                error -= dy;
+                x0 += sx;
+            }
+
+            if (error2 < dx) {
                 error += dx;
+                y0 += sy;
             }
         }
+
         return points;
     }
 
     static ArrayList<Pixel> stepByStep(int x0, int y0, int x1, int y1){
         ArrayList<Pixel> points = new ArrayList<>();
 
-        if (x1-x0 < 0){
-            int tempx = x0;
-            int tempy = y0;
-            x0 = x1;
-            y0 = y1;
-            x1 = tempx;
-            y1 = tempy;
-        }
+        int dx = x1 - x0;
+        int dy = y1 - y0;
 
-        int dx = x1-x0;
-        int dy = y1-y0;
-        double k = (double) dy /dx;
-        double b = y0 - k*x0;
-        int y = y0;
+        int steps = Math.max(Math.abs(dx), Math.abs(dy));
 
-        for (int x = x0; x <= x1; x++) {
-            y = (int) (k*x+b);
-            points.add(new Pixel(x, y));
+        double xIncrement = (double) dx / steps;
+        double yIncrement = (double) dy / steps;
+
+        double x = x0;
+        double y = y0;
+
+        for (int i = 0; i <= steps; i++) {
+            points.add(new Pixel((int) x, (int) y));
+            x += xIncrement;
+            y += yIncrement;
         }
 
         return points;

@@ -7,88 +7,104 @@
 #include <string>
 
 using namespace std;
-const int N = 150;
 
-//создание матрицы А симметричной
-vector<vector<double>> createMatrixA(std::vector<std::vector<double>>& matrix) {
-    std::vector<std::vector<double>> a(N, std::vector<double>(N));
-    for (int i = 0; i < N; ++i)
+int N = 1500;
+
+vector<vector<double>> GenerateMatrix()
+{
+    vector<vector<double>> matrix(N, vector<double>());
+    for (int i = N - 1; i >= 0; --i)
     {
-        for (int j = 0; j < N; ++j)
+        double diagElement = 0;
+        for (int j = N - 1; j > i; --j)
         {
-            if (i >= j)
-            {
-                a[i][j] = matrix[i][j];
-            }
-            else
-            {
-                a[i][j] = matrix[j][i];
-            }
+            diagElement += matrix[j][i];
         }
-    }
-    return a;
-}
-//создание А для разложения
-vector<vector<double>> makeMatrixForMethod() {
-    std::vector<std::vector<double>> matrix(N, std::vector<double>(N));
-    for (int i = 0; i < N; ++i)
-    {
-        for (int j = 0; j < N; ++j)
+        for (int j = 0; j <= i; ++j)
         {
-            int randomNumber = std::rand() % 2001 - 1000;
-            matrix[i][j] = randomNumber;
+            if (i == j)
+            {
+                matrix[i].push_back(0.0f);
+                continue;
+            }
+            matrix[i].push_back((double)rand() / RAND_MAX * -1000.0f);
+            diagElement += matrix[i][j];
+        }
+        if (i == 0)
+        {
+            matrix[i][i] = -diagElement +  pow(10, -2);
+        }
+        else
+        {
+            matrix[i][i] = -diagElement;
         }
     }
     return matrix;
 }
 
-//set vector x to define b; number m = 1, so values will be (1,2,3,...,n)
-vector<double> setValuesVectorX() {
-    vector<double> result(N);
-    for (int i = 0; i < N; i++) {
-        result[i] = i + 1;
-    }
-
-    return result;
-}
-
-//set vecor b, b = A*x
-vector<double> setValuesVectorB(vector<vector<double>>& matrixA, vector<double>& vectorX) {
-    vector<double> result(N);
-
-    for (size_t i = 0; i < N; i++)
+vector<double> GetVector()
+{
+    vector<double> vector(N);
+    for (int i = 0; i < N; ++i)
     {
-        int temp = 0;
-        for (int j = 0; j < N; j++) {
-            temp += matrixA[i][j] * vectorX[j];
+        vector[i] = 1 + i;
+    }
+    return vector;
+}
+
+vector<double> matrixMultVector(vector<vector<double>>& matrix, vector<double>& vectorX)
+{
+    int size = vectorX.size();
+    vector<double> result(size);
+    for (int i = 0; i < size; i++)
+    {
+        double sum = 0;
+        for (int j = 0; j < size; j++)
+        {
+            sum += matrix[i >= j ? i : j][i >= j ? j : i] * vectorX[j];
         }
-        result[i] = temp;
+        result[i] = sum;
+    }
+    return result;
+}
+
+double scalVectorMult(vector<double>& vec1, vector<double>& vec2)
+{
+    double result = 0;
+    for (size_t i = 0; i < vec1.size(); ++i)
+    {
+        result += vec1[i] * vec2[i];
     }
 
     return result;
 }
 
-//make copies not to change the native data
-vector<vector<double>> makeMatrixACopy(vector<vector<double>>& matrixA) {
-    vector<vector<double>> copy(N, vector<double>(N));
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            copy[i][j] = matrixA[i][j];
+ vector<double> RunCG(vector< vector<double>>& matrix, vector<double>& vectorX)
+{
+    vector<double> x(N, 0);
+    vector<double> r = vectorX;
+    vector<double> p = vectorX;
+    double scalRR = scalVectorMult(r, r);
+    for (int i = 0; i < 50; ++i)
+    {
+        double rlRL = scalRR;
+         vector<double> vecMart = matrixMultVector(matrix, p);
+        double scalVecMatrP = scalVectorMult(vecMart, p);
+        double alpha = rlRL / scalVecMatrP;
+        for (int j = 0; j < N; ++j)
+        {
+            x[j] += alpha * p[j];
+            r[j] -= alpha * vecMart[j];
+        }
+        scalRR = scalVectorMult(r, r);
+        double beta = scalRR / rlRL;
+        for (int j = 0; j < N; ++j)
+        {
+            p[j] = r[j] + beta * p[j];
         }
     }
-
-    return copy;
-}
-
-vector<double> makeVectorBCopy(vector<double>& vectorB) {
-    vector<double> copy(N);
-
-    for (int i = 0; i < N; i++) {
-        copy[i] = vectorB[i];
-    }
-
-    return copy;
+    return x;
 }
 
 //Ly=b
@@ -109,7 +125,7 @@ vector<double> findY(vector<vector<double>>& L, vector<double> b) {
 //Dz=y
 vector<double> findZ(vector<vector<double>>& D, vector<double>& y)
 {
-    std::vector<double> z(N);
+     vector<double> z(N);
 
     for (int i = 0; i < N; i++)
     {
@@ -151,7 +167,6 @@ void doDecomposition(vector<vector<double>>& a) {
     }
 }
 
-//Ищем результат по разложению, решая сиситему уравнений
 vector<double> getResultVectorWithLDRLt(vector<vector<double>>& matrixA, vector<double>& vectorB) {
 
     doDecomposition(matrixA);
@@ -162,54 +177,6 @@ vector<double> getResultVectorWithLDRLt(vector<vector<double>>& matrixA, vector<
     return x;
 }
 
-//forward pass of the method
-void doForwardPassOfTheMethod(vector<vector<double>>& copyMatrixA, vector<double>& copyVectorB) {
-    for (int i = 0; i < N - 1; i++) {
-        if (copyMatrixA[i][i] == 0)
-        {
-            continue;
-        }
-        for (int j = i + 1; j < N; j++) {
-            double coefficientL = copyMatrixA[j][i] / copyMatrixA[i][i];
-            copyMatrixA[j][i] = 0;
-            for (int k = i + 1; k < N; k++) {
-                copyMatrixA[j][k] = copyMatrixA[j][k] - coefficientL * copyMatrixA[i][k];
-            }
-            copyVectorB[j] = copyVectorB[j] - coefficientL * copyVectorB[i];
-        }
-    }
-}
-
-//doing everything backwards to get resuls and fill result vector
-void getGaussResults(vector<vector<double>>& copyMatrixA, vector<double>& copyVectorB, vector<double>& result) {
-    result[N - 1] = copyVectorB[N - 1] / copyMatrixA[N - 1][N - 1];
-
-    for (int i = N - 2; i > -1; i--) {
-        double temp = 0;
-        for (int j = i + 1; j < N; j++)
-        {
-            temp += copyMatrixA[i][j] * result[j];
-        }
-        result[i] = (copyVectorB[i] - temp) / copyMatrixA[i][i];
-    }
-}
-
-//Gauss without leading element
-vector<double> getResultVectorWithoutLeadingElement(vector<vector<double>>& matrixA, vector<double>& vectorB) {
-    vector<double> result(N);
-
-    vector<vector<double>> copyMatrixA = makeMatrixACopy(matrixA);
-    vector<double> copyVectorB = makeVectorBCopy(vectorB);
-
-    //making matrix triangle
-    doForwardPassOfTheMethod(copyMatrixA, copyVectorB);
-    //getting result vector from modified matrix
-    getGaussResults(copyMatrixA, copyVectorB, result);
-
-    return result;
-}
-
-//Get the norm value
 double getNormOfTheVector(const vector<double> vector)
 {
     double res = 0.0;
@@ -220,52 +187,77 @@ double getNormOfTheVector(const vector<double> vector)
     return sqrt(res);
 }
 
-//Get the difference ||x-x*||
-double getCalculativeDifference(vector<double>& vectorX, vector<double>& result) {
-    vector<double> difference(N);
-    for (int i = 0; i < N; i++) {
-        difference[i] = vectorX[i] - result[i];
+double getFminusAX(vector<vector<double>>& matrix, vector<double>& vectorX, vector<double>& f)
+{
+    vector<double> ax = matrixMultVector(matrix, vectorX);
+    for (int i = 0; i < N; ++i)
+    {
+        ax[i] = f[i] - ax[i];
     }
-    return getNormOfTheVector(difference) / getNormOfTheVector(vectorX);
+    return getNormOfTheVector(ax);
 }
 
-vector<double> CG(vector<vector<double>>& matrixA, vector<double>& vectorB) {
-
+double GetRelativeError(vector<double>& originalVector, vector<double>& calculatedVector)
+{
+     vector<double> temp(N);
+    for (int i = 0; i < N; ++i)
+    {
+        temp[i] = originalVector[i] - calculatedVector[i];
+    }
+    return getNormOfTheVector(temp) / getNormOfTheVector(originalVector);
 }
 
-int main() {
-    srand(static_cast<unsigned int>(time(nullptr)));
+int main()
+{
+     srand(static_cast<unsigned int>( time(nullptr)));
 
-    vector<vector<double>> methodMatrix = makeMatrixForMethod();
-    vector<vector<double>> matrixA = createMatrixA(methodMatrix);
-    vector<double> vectorX = setValuesVectorX();
-    vector<double> vectorB = setValuesVectorB(matrixA, vectorX);
+    vector<vector<double>> matrixA = GenerateMatrix();
+    vector<double> vectorX = GetVector();
+    vector<double> f = matrixMultVector(matrixA, vectorX);
 
-    cout << "Vector X : " << endl;
-    for (int i = 0; i < 6; ++i) {
-        cout << "x" << i + 1 << " = " << vectorX[i] << endl;
-    }
+     cout << "Vector X : " << endl;
+     for (int i = 0; i < 6; ++i) {
+         cout << "x" << i + 1 << " = " << vectorX[i] << endl;
+     }
 
-    cout << "----------------------------------------" << endl;
+     cout << "----------------------------------------" << endl;
 
-    cout << "LDRLt:  " << endl;
-    auto startPointWith = chrono::steady_clock::now();
-    vector<double> resultWithLDRLt = getResultVectorWithLDRLt(methodMatrix, vectorB);
-    auto endPointWith = chrono::steady_clock::now();
-    const int resultTimeWithLDRLt = std::chrono::duration_cast<std::chrono::seconds>(endPointWith - startPointWith).count();
+     cout << "CG:  " << endl;
+     auto startPoint = chrono::steady_clock::now();
+     vector<double> res = RunCG(matrixA, f);
+     auto endPoint = chrono::steady_clock::now();
+     const int resultTimeWithCG = std::chrono::duration_cast<std::chrono::seconds>(endPoint - startPoint).count();
 
-    for (int i = 0; i < 6; ++i) {
-        cout << "x" << i + 1 << " = " << resultWithLDRLt[i] << endl;
-    }
-    cout << endl;
-    cout << "Result time: " << resultTimeWithLDRLt << "s" << endl;
+     for (int i = 0; i < 6; ++i) {
+         cout << "x" << i + 1 << " = " << res[i] << endl;
+     }
+     cout << endl;
+     cout << "Result time: " << resultTimeWithCG << "s" << endl;
+     cout << "Norm of residual vector (CG): " << getFminusAX(matrixA, res, f) << endl;
+     cout << "RelativeError(CG): " << GetRelativeError(vectorX, res) << endl;
 
-    cout << "----------------------------------------" << endl;
+     cout << "----------------------------------------" << endl;
 
-    cout << "Calculative error for LDRLt = " << getCalculativeDifference(vectorX, resultWithLDRLt) << endl;
+     cout << "----------------------------------------" << endl;
 
-    cout << "----------------------------------------" << endl;
+     cout << "LDRLt:  " << endl;
+     auto startPointWith = chrono::steady_clock::now();
+     vector<double> x = getResultVectorWithLDRLt(matrixA, f);
+     auto endPointWith = chrono::steady_clock::now();
+     const int resultTimeWithLDRLt = std::chrono::duration_cast<std::chrono::seconds>(endPointWith - startPointWith).count();
+
+     for (int i = 0; i < 6; ++i) {
+         cout << "x" << i + 1 << " = " << x[i] << endl;
+     }
+     cout << endl;
+     cout << "Result time: " << resultTimeWithLDRLt << "s" << endl;
+     cout << "Norm of residual vector (LDL^T): " << getFminusAX(matrixA, x, f) << endl;
+     cout << "RelativeError(LDL^T): " << GetRelativeError(vectorX, x) << endl;
+
+     cout << "----------------------------------------" << endl;
+
+
+     
 
     return 0;
 }
-
