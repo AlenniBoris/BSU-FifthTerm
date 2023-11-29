@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class GraphPlotter extends JFrame {
 
     private ArrayList<Pixel> shadedCells;
-    private int maxCoordinate; // Максимальная координата от центра
+    private int maxCoordinate;
 
     public GraphPlotter(ArrayList<Pixel> shadedCells, String text, int maxCoordinate) {
         this.shadedCells = shadedCells;
@@ -15,11 +15,16 @@ public class GraphPlotter extends JFrame {
         setTitle(text);
         setLocationRelativeTo(null);
 
-        // Рассчитываем размер окна исходя из максимальной координаты и размеров клетки
-        int cellSize = 20; // Размер клетки
+        int cellSize = 20;
+
+        if(maxCoordinate > 15){
+            cellSize = 15;
+        }
+
         int windowSize = (maxCoordinate + 3) * cellSize * 2;
         setSize(windowSize, windowSize);
 
+        int finalCellSize = cellSize;
         JPanel graphPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -34,16 +39,13 @@ public class GraphPlotter extends JFrame {
                 g2d.draw(new Line2D.Double(centerX, 0, centerX, getHeight()));
                 g2d.draw(new Line2D.Double(0, centerY, getWidth(), centerY));
 
-                // Рисование сетки
                 g2d.setColor(Color.LIGHT_GRAY);
-                drawGrid(g2d, centerX, centerY, cellSize);
+                drawGrid(g2d, centerX, centerY, finalCellSize);
 
-                // Рисование подписей осей
-                drawAxisLabels(g2d, centerX, centerY, cellSize);
+                drawAxisLabels(g2d, centerX, centerY, finalCellSize);
 
-                // Закрашивание клеток
                 g2d.setColor(Color.BLUE);
-                shadeCells(g2d, centerX, centerY, cellSize);
+                shadeCells(g2d, centerX, centerY, finalCellSize);
             }
         };
 
@@ -51,7 +53,7 @@ public class GraphPlotter extends JFrame {
     }
 
     private void drawGrid(Graphics2D g2d, int centerX, int centerY, int cellSize) {
-        int divisions = (maxCoordinate + 1) * 2; // Количество делений в обеих осях
+        int divisions = (maxCoordinate + 1) * 2;
 
         for (int i = -divisions / 2; i <= divisions / 2; i++) {
             int x = centerX + i * cellSize;
@@ -68,7 +70,7 @@ public class GraphPlotter extends JFrame {
         g2d.drawString("Y", centerX + 10, 20);
 
         int labelOffset = 5;
-        int divisions = (maxCoordinate + 1) * 2; // Количество делений в обеих осях
+        int divisions = (maxCoordinate + 1) * 2;
 
         for (int i = 1; i <= divisions / 2; i++) {
             int x = centerX + i * cellSize;
@@ -83,9 +85,9 @@ public class GraphPlotter extends JFrame {
     }
 
     private void shadeCells(Graphics2D g2d, int centerX, int centerY, int cellSize) {
-        for (Pixel cell : shadedCells) {
-            int x = cell.getX() * cellSize + centerX;
-            int y = -cell.getY() * cellSize + centerY - cellSize; // Инвертирование y для соответствия координатной системе
+        for (int i = 0; i < shadedCells.size()-1; i++) {
+            int x = shadedCells.get(i).getX() * cellSize + centerX;
+            int y = -shadedCells.get(i).getY() * cellSize + centerY - cellSize;
 
             g2d.fill(new Rectangle2D.Double(x, y, cellSize, cellSize));
         }
