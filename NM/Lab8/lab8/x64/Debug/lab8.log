@@ -1,0 +1,9 @@
+﻿  lab8.cpp
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab8\lab8\lab8.cpp(46,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab8\lab8\lab8.cpp(98,65): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab8\lab8\lab8.cpp(147,36): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  lab8.vcxproj -> C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab8\lab8\x64\Debug\lab8.exe

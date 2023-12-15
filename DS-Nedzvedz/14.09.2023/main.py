@@ -1,4 +1,6 @@
+import time
 
+import cv2
 # image = cv2.imread('download.jpg')
 # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 #
@@ -190,5 +192,81 @@
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
-#19/10/2023
+#30/11/23
 
+# import cv2
+# import numpy as np
+# import random
+#
+# image_path = 'sample10.jpg'
+# image = cv2.imread(image_path)
+#
+# gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#
+# _, binary_image = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+#
+# edged = cv2.Canny(binary_image, 30, 200)
+# contours, hierarchy = cv2.findContours(edged,
+#     cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+#
+# for i, contour in enumerate(contours):
+#     color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+#     cv2.drawContours(image, [contour], -1, color, thickness=cv2.FILLED)
+#
+# cv2.imshow('Original Image', image)
+# cv2.imshow('Processed Image', binary_image)
+#
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
+
+import cv2 as cv
+import os
+import numpy as np
+
+def harris_detect(image):
+    operatedImage = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    operatedImage = np.float32(operatedImage)
+    dest = cv.cornerHarris(operatedImage, 4, 5, 0.13)
+    dest = cv.dilate(dest, None)
+    image[dest > 0.01 * dest.max()] = [0, 0, 255]
+
+def rotate(image,angle):
+    height, width = image.shape[:2]
+    center = (width / 2, height / 2)
+    rotation_matrix = cv.getRotationMatrix2D(center, angle, 1.0)
+    rotated_image = cv.warpAffine(image, rotation_matrix, (width, height))
+    return rotated_image
+
+def find_match(template, search):
+    detected_template = harris_detect(template)
+    detectrd_search = harris_detect(search)
+
+
+image = cv.imread("finger.jpg")
+
+# cv.imshow('Image', image)
+
+# for angle in range(0,361,5):
+#     rotated = rotate(image, angle)
+#     rotatedIm = rotate(image, angle)
+#     harris_detect(rotatedIm)
+#     path = os.path.join("rotates_star", f"rotated_{angle}.jpg")
+#     cv.imwrite(path, rotatedIm)
+#     image = rotated
+#     cv.imshow('Rotation', rotatedIm)
+#     cv.waitKey(100)
+
+template = cv.imread("fingerprints.jpg")
+firstFinger = cv.imread("fp2.jpg")
+secondFinger = cv.imread("fp2.jpg")
+
+first_detected = find_match(template, firstFinger)
+second_detected = find_match(template, secondFinger)
+
+path = os.path.join("finger_detection", f"detected_first.jpg")
+cv.imwrite(path, first_detected)
+path = os.path.join("finger_detection", f"detected_second.jpg")
+cv.imwrite(path, second_detected)
+
+cv.waitKey(0)
+cv.destroyAllWindows()
