@@ -219,30 +219,30 @@ import cv2
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
-import cv2 as cv
-import os
-import numpy as np
-
-def harris_detect(image):
-    operatedImage = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    operatedImage = np.float32(operatedImage)
-    dest = cv.cornerHarris(operatedImage, 4, 5, 0.13)
-    dest = cv.dilate(dest, None)
-    image[dest > 0.01 * dest.max()] = [0, 0, 255]
-
-def rotate(image,angle):
-    height, width = image.shape[:2]
-    center = (width / 2, height / 2)
-    rotation_matrix = cv.getRotationMatrix2D(center, angle, 1.0)
-    rotated_image = cv.warpAffine(image, rotation_matrix, (width, height))
-    return rotated_image
-
-def find_match(template, search):
-    detected_template = harris_detect(template)
-    detectrd_search = harris_detect(search)
-
-
-image = cv.imread("finger.jpg")
+# import cv2 as cv
+# import os
+# import numpy as np
+#
+# def harris_detect(image):
+#     operatedImage = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+#     operatedImage = np.float32(operatedImage)
+#     dest = cv.cornerHarris(operatedImage, 4, 5, 0.13)
+#     dest = cv.dilate(dest, None)
+#     image[dest > 0.01 * dest.max()] = [0, 0, 255]
+#
+# def rotate(image,angle):
+#     height, width = image.shape[:2]
+#     center = (width / 2, height / 2)
+#     rotation_matrix = cv.getRotationMatrix2D(center, angle, 1.0)
+#     rotated_image = cv.warpAffine(image, rotation_matrix, (width, height))
+#     return rotated_image
+#
+# def find_match(template, search):
+#     detected_template = harris_detect(template)
+#     detectrd_search = harris_detect(search)
+#
+#
+# image = cv.imread("finger.jpg")
 
 # cv.imshow('Image', image)
 
@@ -256,17 +256,92 @@ image = cv.imread("finger.jpg")
 #     cv.imshow('Rotation', rotatedIm)
 #     cv.waitKey(100)
 
-template = cv.imread("fingerprints.jpg")
-firstFinger = cv.imread("fp2.jpg")
-secondFinger = cv.imread("fp2.jpg")
+# template = cv.imread("fingerprints.jpg")
+# firstFinger = cv.imread("fp2.jpg")
+# secondFinger = cv.imread("fp2.jpg")
+#
+# first_detected = find_match(template, firstFinger)
+# second_detected = find_match(template, secondFinger)
+#
+# path = os.path.join("finger_detection", f"detected_first.jpg")
+# cv.imwrite(path, first_detected)
+# path = os.path.join("finger_detection", f"detected_second.jpg")
+# cv.imwrite(path, second_detected)
+#
+# cv.waitKey(0)
+# cv.destroyAllWindows()
 
-first_detected = find_match(template, firstFinger)
-second_detected = find_match(template, secondFinger)
+# import cv2
+#
+# image_path = "roads.jpeg"
+# original_image = cv2.imread(image_path)
+#
+# cv2.imshow("Without contours", original_image)
+#
+# gray_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+#
+# # Применение бинаризации для выделения объекта
+# _, thresh = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+# # Поиск контуров
+# contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+#
+# # Рисуем контуры
+# cv2.drawContours(original_image, contours, -1, (0, 255, 0), 2)
+#
+# # Инициализация переменной для хранения площади объекта
+# size = 0
+#
+# # Перебор найденных контуров
+# for contour in contours:
+#     # Вычисление площади контура и добавление к общей площади
+#     area = cv2.contourArea(contour)
+#     size += area
+#     x, y, w, h = cv2.boundingRect(contour)
+#     cv2.putText(original_image, str(area), (x, y),
+#                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+#
+# # Вывод результата
+# print("Площадь объекта: {} пикселей".format(size))
+#
+# cv2.imshow("With contours", original_image)
+#
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
-path = os.path.join("finger_detection", f"detected_first.jpg")
-cv.imwrite(path, first_detected)
-path = os.path.join("finger_detection", f"detected_second.jpg")
-cv.imwrite(path, second_detected)
 
-cv.waitKey(0)
-cv.destroyAllWindows()
+
+
+import cv2
+def apply_dilatation(img):
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
+    img = cv2.dilate(img,kernel,iterations = 4)
+    return img
+
+img = cv2.imread('23.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+_,binarized = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU)
+
+binarized = 255 - binarized
+
+dilatated = apply_dilatation(binarized)
+
+cv2.imshow('binarized', binarized)
+cv2.imshow('dilatated', dilatated)
+
+
+image = cv2.imread('23.jpg')
+gray1 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+_, thresh = cv2.threshold(gray1, 0, 255, cv2.THRESH_OTSU+cv2.THRESH_BINARY_INV)
+contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+result = image.copy()
+
+cv2.drawContours(result, contours, -1, (0, 255, 0), 3)
+cv2.fillPoly(result, contours, (0, 0, 255))
+
+cv2.imshow('Result', result)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()

@@ -1,0 +1,5 @@
+﻿  lab9.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\optional(12): warning STL4038: The contents of <optional> are available only with C++17 or later.
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab9\lab9\lab9.cpp(123,33): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab9\lab9\lab9.cpp(123,20): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+  lab9.vcxproj -> C:\MyProgramming\For-BSU\BSU-FifthTerm\NM\Lab9\lab9\x64\Debug\lab9.exe
